@@ -4,11 +4,32 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function BlueYardLoader({ onComplete }: { onComplete?: () => void }) {
+  const [hasLoaded, setHasLoaded] = useState(() => {
+    if (typeof window === "undefined") return false;
+
+    const navEntry = performance.getEntriesByType("navigation")[0] as
+      | PerformanceNavigationTiming
+      | undefined;
+    const isReload = navEntry?.type === "reload";
+
+    // Let a manual refresh replay the loader.
+    if (isReload) {
+      sessionStorage.removeItem("aura-visited");
+    }
+
+    return sessionStorage.getItem("aura-visited") === "true";
+  });
   const [count, setCount] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
+    if (hasLoaded) {
+      onComplete?.();
+      return;
+    }
+
     let startTime: number | null = null;
+    let rafId = 0;
     const duration = 2000; // 2 seconds to reach 100%
 
     const animate = (timestamp: number) => {
@@ -19,18 +40,27 @@ export function BlueYardLoader({ onComplete }: { onComplete?: () => void }) {
       setCount(Math.floor(percentage));
 
       if (progress < duration) {
-        requestAnimationFrame(animate);
+        rafId = requestAnimationFrame(animate);
       } else {
         setTimeout(() => {
+          sessionStorage.setItem("aura-visited", "true");
+          setHasLoaded(true);
           setIsVisible(false);
-          if (onComplete) onComplete();
+          onComplete?.();
         }, 200);
       }
     };
 
-    requestAnimationFrame(animate);
-    return () => setIsVisible(false);
-  }, [onComplete]);
+    rafId = requestAnimationFrame(animate);
+    return () => {
+      cancelAnimationFrame(rafId);
+      setIsVisible(false);
+    };
+  }, [hasLoaded, onComplete]);
+
+  if (hasLoaded) {
+    return null;
+  }
 
   // We declare the styles HERE, before the return statement!
   const faceStyles = "absolute inset-0 flex items-center justify-center text-[#FDF1EE] font-bold text-[10px] text-center border border-zinc-800 shadow-xl";

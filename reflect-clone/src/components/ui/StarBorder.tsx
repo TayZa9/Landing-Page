@@ -14,7 +14,7 @@ export function StarBorder({
     as: Component = "button",
     className = "",
     children,
-    color = "#00E5E5",
+    color = "#36d1ff",
     speed = "6s",
     ...rest
 }: StarBorderProps) {

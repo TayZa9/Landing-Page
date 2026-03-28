@@ -1,17 +1,30 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { motion, useMotionTemplate, useScroll, useTransform } from "framer-motion";
 
 const NAV_LINKS = [
-  { label: "Features", href: "#features" },
-  { label: "Vision", href: "#vision" },
-  { label: "Developer", href: "#developer" },
+  { label: "Home", href: "/" },
+  { label: "Developer", href: "/#developer" },
   { label: "Technology", href: "#technology" },
   { label: "About", href: "#about" },
 ];
 
 export function AuraNavbar() {
+  const pathname = usePathname();
+  const [currentHash, setCurrentHash] = useState("");
   const { scrollY } = useScroll();
+
+  useEffect(() => {
+    const syncHash = () => {
+      setCurrentHash(window.location.hash || "");
+    };
+
+    syncHash();
+    window.addEventListener("hashchange", syncHash);
+    return () => window.removeEventListener("hashchange", syncHash);
+  }, [pathname]);
 
   // As user scrolls: glass becomes more opaque
   const bgOpacity = useTransform(scrollY, [0, 120], [0, 0.7]);
@@ -46,13 +59,13 @@ export function AuraNavbar() {
         whileHover={{ scale: 1.04 }}
         transition={{ type: "spring", stiffness: 400 }}
       >
-        {/* Cyan glow dot */}
-        <span className="w-2 h-2 rounded-full bg-[#00E5FF] shadow-[0_0_12px_2px_#00E5FF]" />
+        {/* Light blue glow dot */}
+        <span className="w-2 h-2 rounded-full bg-primary shadow-[0_0_12px_2px_#36d1ff]" />
         <span
           className="text-white font-bold text-lg tracking-widest uppercase"
           style={{ fontFamily: "var(--font-geist-sans)" }}
         >
-          Aura<span className="text-[#00E5FF]"> V</span>
+          Aura<span className="text-primary"> V</span>
         </span>
       </motion.a>
 
@@ -60,7 +73,23 @@ export function AuraNavbar() {
       <ul className="relative z-10 hidden md:flex gap-10 items-center">
         {NAV_LINKS.map((link) => (
           <li key={link.label}>
-            <NavLink href={link.href}>{link.label}</NavLink>
+            {/*
+              Support both hash-only links (#vision) and path+hash links (/#developer)
+              so active state stays correct on the one-page home layout.
+            */}
+            <NavLink
+              href={link.href}
+              active={(() => {
+                if (link.href.includes("#")) {
+                  const [targetPath, targetHash] = link.href.split("#");
+                  const normalizedPath = targetPath || "/";
+                  return pathname === normalizedPath && currentHash === `#${targetHash}`;
+                }
+                return pathname === link.href;
+              })()}
+            >
+              {link.label}
+            </NavLink>
           </li>
         ))}
       </ul>
@@ -68,8 +97,8 @@ export function AuraNavbar() {
       {/* CTA */}
       <motion.a
         href="#features"
-        className="relative z-10 hidden md:flex items-center gap-2 px-5 py-2 rounded-full border border-[#00E5FF]/40 text-[#00E5FF] text-sm font-medium tracking-wide hover:bg-[#00E5FF]/10 transition-colors duration-300"
-        whileHover={{ scale: 1.05, boxShadow: "0 0 20px 2px rgba(0,229,255,0.25)" }}
+        className="relative z-10 hidden md:flex items-center gap-2 px-5 py-2 rounded-full border border-[#36d1ff]/40 text-[#36d1ff] text-sm font-medium tracking-wide hover:bg-[#36d1ff]/10 transition-colors duration-300"
+        whileHover={{ scale: 1.05, boxShadow: "0 0 24px 3px rgba(54,209,255,0.38)" }}
         whileTap={{ scale: 0.97 }}
       >
         Get Early Access
@@ -78,15 +107,29 @@ export function AuraNavbar() {
   );
 }
 
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+function NavLink({
+  href,
+  children,
+  active,
+}: {
+  href: string;
+  children: React.ReactNode;
+  active: boolean;
+}) {
   return (
     <a
       href={href}
-      className="relative text-white/60 hover:text-white text-sm font-medium tracking-wide transition-colors duration-200 group"
+      className={`relative text-sm font-medium tracking-wide transition-colors duration-200 group ${active ? "text-[#36d1ff] opacity-100" : "text-white/50 hover:text-white"
+        }`}
     >
       {children}
-      {/* Underline micro-animation */}
-      <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-[#00E5FF] group-hover:w-full transition-all duration-300 ease-out" />
+      <span
+        className={`absolute -bottom-1 left-0 h-px bg-[#36d1ff] transition-all duration-300 ease-out ${active ? "w-full" : "w-0 group-hover:w-full"
+          }`}
+      />
+      {active ? (
+        <span className="absolute -bottom-2.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-[#36d1ff] shadow-[0_0_8px_#36d1ff]" />
+      ) : null}
     </a>
   );
 }

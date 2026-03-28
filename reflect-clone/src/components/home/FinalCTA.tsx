@@ -15,7 +15,7 @@ export function FinalCTA() {
                     className="relative rounded-[2rem] p-12 md:p-20 text-center overflow-hidden border border-white/10 bg-[#050505]"
                 >
                     {/* Radial Glow Background */}
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-teal-900/40 via-[#050505] to-[#050505] pointer-events-none" />
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/40 via-[#050505] to-[#050505] pointer-events-none" />
 
                     {/* Content */}
                     <div className="relative z-10">
@@ -30,7 +30,7 @@ export function FinalCTA() {
                         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                             <Link
                                 href="#"
-                                className="bg-[#00E5E5] hover:bg-cyan-400 text-black font-semibold rounded-lg px-8 py-3 transition-colors"
+                                className="bg-primary hover:bg-[#0ea5e9] text-white font-semibold rounded-lg px-8 py-3 transition-colors"
                             >
                                 Join Waitlist
                             </Link>

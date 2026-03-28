@@ -18,7 +18,7 @@ export function FeatureShowcase() {
                 >
                     {/* Text Column */}
                     <div>
-                        <span className="text-cyan-400 text-sm font-semibold tracking-wide uppercase mb-3 block">
+                        <span className="text-primary text-sm font-semibold tracking-wide uppercase mb-3 block">
                             Live Command Center
                         </span>
                         <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
@@ -30,7 +30,7 @@ export function FeatureShowcase() {
                     </div>
 
                     {/* Image Column */}
-                    <div className="h-[400px] w-full rounded-2xl bg-white/5 border border-white/10 shadow-[0_0_50px_rgba(0,229,229,0.1)] flex items-center justify-center">
+                    <div className="h-[400px] w-full rounded-2xl bg-white/5 border border-white/10 shadow-[0_0_50px_rgba(54,209,255,0.1)] flex items-center justify-center">
                         <span className="text-zinc-500 font-medium">Live Camera Panel HUD</span>
                     </div>
                 </motion.div>
@@ -44,13 +44,13 @@ export function FeatureShowcase() {
                     transition={{ duration: 0.8, ease: "easeOut" }}
                 >
                     {/* Image Column (Order First on Desktop) */}
-                    <div className="order-last lg:order-first h-[400px] w-full rounded-2xl bg-white/5 border border-white/10 shadow-[0_0_50px_rgba(16,185,129,0.1)] flex items-center justify-center">
+                    <div className="order-last lg:order-first h-[400px] w-full rounded-2xl bg-white/5 border border-white/10 shadow-[0_0_50px_rgba(54,209,255,0.1)] flex items-center justify-center">
                         <span className="text-zinc-500 font-medium">Live Log Console & Memory</span>
                     </div>
 
                     {/* Text Column */}
                     <div>
-                        <span className="text-emerald-400 text-sm font-semibold tracking-wide uppercase mb-3 block">
+                        <span className="text-primary text-sm font-semibold tracking-wide uppercase mb-3 block">
                             AI Reasoning & Memory
                         </span>
                         <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">

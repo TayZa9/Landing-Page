@@ -79,6 +79,7 @@ function VaporParticles({
 export function VaporFlow() {
   const sectionRef = useRef<HTMLElement>(null);
   const streamStrengthRef = useRef({ value: 0.11 });
+  const textRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -98,6 +99,21 @@ export function VaporFlow() {
           },
         }
       );
+
+      if (textRef.current) {
+        gsap.to(textRef.current, {
+          opacity: 0,
+          filter: "blur(16px)",
+          y: -22,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "60% center",
+            end: "bottom 35%",
+            scrub: true,
+          },
+        });
+      }
     }, section);
 
     const handleMouseMove = (event: MouseEvent) => {
@@ -119,7 +135,7 @@ export function VaporFlow() {
     <section
       id="features"
       ref={sectionRef}
-      className="relative isolate min-h-screen overflow-hidden bg-black [mask-image:linear-gradient(to_bottom,transparent_0%,black_18%,black_100%)]"
+      className="relative isolate min-h-screen overflow-hidden bg-black [mask-image:linear-gradient(to_bottom,transparent_0%,black_16%,black_82%,transparent_100%)]"
       style={
         {
           "--glow-x": "50%",
@@ -146,13 +162,22 @@ export function VaporFlow() {
         }}
       />
 
+      <div
+        aria-hidden
+        className="absolute bottom-0 left-0 right-0 h-44 pointer-events-none z-20"
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(2,8,14,0) 0%, rgba(3,10,18,0.46) 45%, rgba(5,5,5,0.92) 100%)",
+        }}
+      />
+
       <div className="absolute inset-0 z-10">
         <Canvas camera={{ position: [0, 0, 14], fov: 58 }}>
           <VaporParticles streamStrengthRef={streamStrengthRef} />
         </Canvas>
       </div>
 
-      <div className="relative z-20 min-h-screen flex items-center justify-center px-6 text-center">
+      <div ref={textRef} className="relative z-20 min-h-screen flex items-center justify-center px-6 text-center">
         <div className="max-w-5xl mx-auto">
           <motion.p
             initial={{ opacity: 0, filter: "blur(14px)", y: 20 }}

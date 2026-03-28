@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-const navLinks = ["Products", "Resources", "Developers", "Pricing"];
+const navLinks = ["Products", "Home", "Developers"];
 
 export function Navbar() {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -50,10 +50,10 @@ export function Navbar() {
                 animate={isScrolled ? "scrolled" : "top"}
                 variants={navContainerVariants}
                 transition={{ duration: 0.4, ease: "easeInOut" }}
-                className="flex items-center justify-between gap-6 relative overflow-hidden group hover:border-teal-500/30 transition-colors duration-300 pointer-events-auto"
+                className="flex items-center justify-between gap-6 relative overflow-hidden group hover:border-primary/30 transition-colors duration-300 pointer-events-auto"
             >
                 {/* Glow effect matching bento boxes */}
-                <div className="absolute inset-0 bg-gradient-to-br from-teal-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
                 {/* Left: Logo */}
                 <div className="flex items-center relative z-10 shrink-0">

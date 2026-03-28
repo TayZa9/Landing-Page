@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
-import { AnimatePresence, motion } from "framer-motion";
 import { BlueYardLoader } from "@/components/app-ui/BlueYardLoader";
 import "./globals.css";
 
@@ -21,24 +20,23 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [isLoading, setIsLoading] = useState(true);
+  const [showLoader, setShowLoader] = useState(false);
+
+  useEffect(() => {
+    const hasVisited = sessionStorage.getItem("aura-visited") === "true";
+    const rafId = requestAnimationFrame(() => {
+      setShowLoader(!hasVisited);
+    });
+    return () => cancelAnimationFrame(rafId);
+  }, []);
+
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <AnimatePresence mode="wait">
-          {isLoading ? (
-            <BlueYardLoader key="loader" onComplete={() => setIsLoading(false)} />
-          ) : (
-            <motion.div
-              key="content"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8 }}
-            >
-              {children}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {showLoader && (
+          <BlueYardLoader onComplete={() => setShowLoader(false)} />
+        )}
+        {children}
       </body>
     </html>
   );

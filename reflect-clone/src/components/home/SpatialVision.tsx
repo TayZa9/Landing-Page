@@ -84,7 +84,7 @@ function AssistantOrb() {
         transmission={0.85}
         opacity={0.95}
         transparent
-        emissive="#00e5ff"
+        emissive="#36d1ff"
         emissiveIntensity={0.25}
       />
     </mesh>
@@ -148,7 +148,7 @@ export function SpatialVision() {
           <Canvas camera={{ position: [0, 0, 9], fov: 50 }}>
             <color attach="background" args={["#050505"]} />
             <ambientLight intensity={0.25} />
-            <pointLight position={[2, 4, 5]} intensity={20} color="#00d5ff" />
+            <pointLight position={[2, 4, 5]} intensity={20} color="#36d1ff" />
             <WireframeGrid />
           </Canvas>
         </div>
@@ -158,14 +158,14 @@ export function SpatialVision() {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(0,229,255,0.15) 0%, rgba(0,0,0,0) 38%, rgba(0,0,0,0.75) 100%)",
+              "linear-gradient(180deg, rgba(54,209,255,0.1) 0%, rgba(0,0,0,0) 38%, rgba(0,0,0,0.75) 100%)",
           }}
         />
 
         <div
           ref={laserRef}
           className="absolute left-0 right-0 h-px bg-[#56eeff]"
-          style={{ boxShadow: "0 0 22px rgba(0,229,255,0.95)" }}
+          style={{ boxShadow: "0 0 22px rgba(54,209,255,0.35)" }}
         />
 
         <div className="relative z-10 h-full px-6 md:px-10 lg:px-16">
@@ -211,7 +211,7 @@ export function SpatialVision() {
 
       <div
         ref={iconRef}
-        className="pointer-events-none fixed right-6 top-24 z-40 h-20 w-20 rounded-full border border-[#00E5FF]/35 bg-[#030708]/70 shadow-[0_0_25px_rgba(0,229,255,0.28)] backdrop-blur-sm"
+        className="pointer-events-none fixed right-6 top-24 z-40 h-20 w-20 rounded-full border border-primary/35 bg-[#030708]/70 shadow-[0_0_25px_rgba(54,209,255,0.1)] backdrop-blur-sm"
       >
         <Canvas camera={{ position: [0, 0, 3.5], fov: 45 }}>
           <ambientLight intensity={0.4} />
