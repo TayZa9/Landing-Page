@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuraVision | System Introduction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #36d1ff;
+            --primary-glow: rgba(54, 209, 255, 0.4);
+            --bg: #030712;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text: #f9fafb;
+            --text-dim: #9ca3af;
+            --accent: #f43f5e;
+            --emerald: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .video-container {
+            width: 90vw;
+            max-width: 1400px;
+            aspect-ratio: 16/9;
+            margin: auto;
+            position: relative;
+            background: #000;
+            border-radius: 1.5rem;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8), 0 0 40px rgba(54, 209, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 50% 50%, #0f172a 0%, #030712 100%);
+        }
+
+        .scene {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.5s ease-in-out;
+            padding: 2rem;
+        }
+
+        .scene.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .backdrop-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(0.6) blur(60px);
+            transform: scale(1.1);
+            transition: transform 10s linear;
+            opacity: 0.4;
+        }
+
+        .scene.active .backdrop-image {
+            transform: scale(1);
+        }
+
+        .content-card {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 1100px;
+            background: var(--glass);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            border-radius: 2rem;
+            padding: 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px);
+            transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .scene.active .content-card {
+            transform: translateY(0);
+        }
+
+        .visual-side {
+            width: 100%;
+            aspect-ratio: 1/1;
+            border-radius: 2rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .visual-side img {
+            width: 90%;
+            height: 90%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 30px var(--primary-glow));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.02); }
+        }
+
+        .text-side {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .tagline {
+            font-family: 'Outfit', sans-serif;
+            color: var(--primary);
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        h1, h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            line-height: 1.1;
+            background: linear-gradient(to bottom right, #fff 50%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: var(--text-dim);
+        }
+
+        .alice-voice {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(54, 209, 255, 0.1);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 1rem 1rem 0;
+            font-style: italic;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .alice-voice::before {
+            content: 'ALICE';
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 1000;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        /* Ambient Orbs */
+        .ambient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.2;
+            z-index: 1;
+        }
+
+        .orb-1 { width: 400px; height: 400px; background: var(--primary); top: -100px; left: -100px; }
+        .orb-2 { width: 500px; height: 500px; background: var(--accent); bottom: -150px; right: -150px; }
+
+        @media (max-width: 1024px) {
+            .content-card {
+                grid-template-columns: 1fr;
+                padding: 2rem;
+                gap: 2rem;
+                margin: 1rem;
+            }
+            h1, h2 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+
+    <div class="video-container">
+        <!-- Scene 1: Introduction -->
+        <div class="scene active" id="scene-1">
+            <img src="/static/images/intro/hero.png" class="backdrop-image" alt="">
+            <div class="content-card">
+                <div class="text-side">
+                    <span class="tagline">Introducing AuraVision</span>
+                    <h1>See the World<br>Beyond Direct Sight</h1>
+                    <p>AuraVision is an AI-powered assistive system designed to grant real-time environmental awareness to those with visual impairments.</p>
+                    <div class="alice-voice">
+                        "Welcome. I am Alice, your vision companion. I will guide you through your environment safely and intuitively."
+                    </div>
+                </div>
+                <div class="visual-side">
+                    <img src="/static/images/intro/hero.png" alt="Vision Hero">
+                </div>
+            </div>
+        </div>
+
+        <!-- Scene 2: Perception -->
+        <div class="scene" id="scene-2">
+            <img src="/static/images/intro/detection.png" class="backdrop-image" alt="">
+            <div class="content-card">
+                <div class="visual-side">
+                    <img src="/static/images/intro/detection.png" alt="Spatial Detection">
+                </div>
+                <div class="text-side">
+                    <span class="tagline">Real-Time Perception</span>
+                    <h2>Intelligent Edge<br>Spatial Awareness</h2>
+                    <p>Powered by YOLOv26, our system detects hazards, objects, and people in milliseconds, mapping their exact location relative to you.</p>
+                    <div class="alice-voice">
+                        "Object detected: Chair. Position: Two meters ahead, slightly to your left."
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scene 3: Reasoning -->
+        <div class="scene" id="scene-3">
+            <img src="/static/images/intro/alice.png" class="backdrop-image" alt="">
+            <div class="content-card">
+                <div class="text-side">
+                    <span class="tagline">Agentic Reasoning</span>
+                    <h2>Alice: Your Smart<br>Vision Partner</h2>
+                    <p>Using Google Gemini, Alice doesn't just list objects—she understands context, providing natural-language guidance for safe navigation.</p>
+                    <div class="alice-voice">
+                        "There is a small step up ahead. Please adjust your path to the right to maintain a clear trajectory."
+                    </div>
+                </div>
+                <div class="visual-side">
+                    <img src="/static/images/intro/alice.png" alt="Alice Interaction">
+                </div>
+            </div>
+        </div>
+
+        <!-- Scene 4: Memory -->
+        <div class="scene" id="scene-4">
+            <img src="/static/images/intro/memory.png" class="backdrop-image" alt="">
+            <div class="content-card">
+                <div class="visual-side">
+                    <img src="/static/images/intro/memory.png" alt="Visual Memory">
+                </div>
+                <div class="text-side">
+                    <span class="tagline">Persistent Context</span>
+                    <h2>A Vision Engine<br>With Memory</h2>
+                    <p>Integrated RAG with ChromaDB allows Alice to remember what she saw. Ask about past observations and get instant answers.</p>
+                    <div class="alice-voice">
+                        "User: Alice, where did I see my keys? <br> Alice: You left them on the wooden desk in the living room at 10:15 AM."
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scene 5: Final Wrap -->
+        <div class="scene" id="scene-5">
+            <img src="/static/images/intro/hero.png" class="backdrop-image" alt="">
+            <div class="content-card" style="grid-template-columns: 1fr; text-align: center;">
+                <div class="text-side" style="align-items: center;">
+                    <span class="tagline">AuraVision 2026</span>
+                    <h1 style="font-size: 4.5rem;">The Future of<br>Independence</h1>
+                    <p style="max-width: 700px;">Redefining accessibility through the power of Agentic AI and computer vision.</p>
+                    <div class="alice-voice" style="max-width: 600px; border-left: none; border-bottom: 4px solid var(--primary); border-radius: 1rem 1rem 0 0;">
+                        "The world is yours to explore. I'll be here to show you the way."
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-fill" id="progress"></div>
+    </div>
+
+    <script>
+        const scenes = document.querySelectorAll('.scene');
+        const progressFill = document.getElementById('progress');
+        let currentScene = 0;
+        const sceneDuration = 8000; // 8 seconds per scene
+
+        function nextScene() {
+            scenes[currentScene].classList.remove('active');
+            currentScene++;
+            
+            if (currentScene >= scenes.length) {
+                // Loop back or stop? For the video recording, we stop.
+                currentScene = scenes.length - 1;
+                return;
+            }
+            
+            scenes[currentScene].classList.add('active');
+            setTimeout(nextScene, sceneDuration);
+        }
+
+        // Auto-start progress bar simulation
+        let progress = 0;
+        const totalDuration = sceneDuration * scenes.length;
+        const updateInterval = 50;
+        const increment = (updateInterval / totalDuration) * 100;
+
+        const progressInterval = setInterval(() => {
+            progress += increment;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(progressInterval);
+            }
+            progressFill.style.width = `${progress}%`;
+        }, updateInterval);
+
+        // Start the sequence
+        setTimeout(nextScene, sceneDuration);
+
+        // Expose a way for the subagent to know when it's done
+        window.isIntroFinished = false;
+        setTimeout(() => {
+            window.isIntroFinished = true;
+            console.log("INTRO_FINISHED");
+        }, totalDuration);
+    </script>
+</body>
+</html>
