@@ -2,39 +2,40 @@
 
 import { Github, Linkedin } from "lucide-react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { AuraNavbar } from "@/components/layout/AuraNavbar";
 
 type TeamMember = {
   name: string;
   role: string;
   bio: string;
-  initials: string;
+  image: string;
 };
 
 const TEAM_MEMBERS: TeamMember[] = [
   {
-    name: "Developer One",
+    name: "TayZar",
     role: "Lead AI Engineer",
     bio: "Architected the Edge-Perception pipeline and optimized the YOLOv26n models for sub-50ms latency. Passionate about computer vision and real-time inference.",
-    initials: "D1",
+    image: "/team/tayzar.png",
   },
   {
-    name: "Developer Two",
+    name: "Jom",
     role: "Systems Architect",
     bio: "Designed the Multimodal RAG memory system using ChromaDB. Bridged the gap between raw hardware feeds and the Gemini reasoning engine.",
-    initials: "D2",
+    image: "/team/jom.png",
   },
   {
-    name: "Developer Three",
+    name: "Kellen",
     role: "UI/UX & Frontend Lead",
     bio: "Crafted the cinematic glassmorphism interface and WebSockets dashboard. Focused on translating complex spatial data into intuitive, human-centric design.",
-    initials: "D3",
+    image: "/team/kellen.png",
   },
   {
-    name: "Developer Four",
+    name: "Melo",
     role: "Backend & Cloud Engineer",
     bio: "Built the FastAPI infrastructure and Firebase security policies. Ensured the local-first architecture remained secure while handling heavy multimodal data streams.",
-    initials: "D4",
+    image: "/team/melo.png",
   },
 ];
 
@@ -107,8 +108,8 @@ export default function DeveloperPage() {
               className="glass-card animate-in fade-in slide-in-from-bottom-3 rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-card)] p-6 transition-transform duration-300 hover:-translate-y-1 hover:border-[var(--border-glow)] md:p-7"
             >
               <div className="mb-5 flex items-center gap-4">
-                <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl border border-[var(--border-subtle)] bg-slate-900/85 text-xl font-semibold text-slate-100 shadow-[0_0_24px_rgba(99,102,241,0.35)]">
-                  {member.initials}
+                <div className="relative h-20 w-20 overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-slate-900/85 shadow-[0_0_24px_rgba(99,102,241,0.35)]">
+                  <Image src={member.image} alt={`${member.name} portrait`} fill className="object-cover" />
                   <span
                     aria-hidden
                     className="pointer-events-none absolute -inset-1 rounded-2xl border border-cyan-300/30"

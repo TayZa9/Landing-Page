@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Outfit } from "next/font/google";
+import LightPillar from "@/components/ui/LightPillar";
 
 const outfitBlack = Outfit({
   subsets: ["latin"],
@@ -12,16 +13,24 @@ const outfitBlack = Outfit({
 export default function HeroSplit() {
   return (
     <section className="relative min-h-screen overflow-hidden bg-slate-950 px-6 text-white md:px-20">
-      <motion.div
+      <LightPillar
+        className="pointer-events-none absolute inset-0 opacity-80"
+        topColor="#00c7fc"
+        bottomColor="#008cb4"
+        intensity={1}
+        rotationSpeed={0.3}
+        glowAmount={0.002}
+        pillarWidth={3}
+        pillarHeight={0.4}
+        noiseIntensity={0.5}
+        mixBlendMode="screen"
+        pillarRotation={25}
+        interactive={false}
+        quality="high"
+      />
+      <div
         aria-hidden
-        initial={{ opacity: 0.48, scale: 0.98, rotate: 0 }}
-        animate={{ opacity: [0.42, 0.58, 0.42], scale: [1, 1.06, 1], rotate: 360 }}
-        transition={{ duration: 44, repeat: Infinity, ease: "linear" }}
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[46rem] w-[46rem] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[120px] md:h-[72rem] md:w-[72rem]"
-        style={{
-          background:
-            "radial-gradient(circle at 34% 34%, rgba(99,102,241,0.2) 0%, rgba(124,58,237,0.2) 45%, rgba(2,6,23,0) 72%)",
-        }}
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(14,23,42,0)_22%,rgba(2,6,23,0.72)_100%)]"
       />
 
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col">
@@ -52,7 +61,7 @@ export default function HeroSplit() {
               className="flex flex-col items-center justify-center gap-4 pt-1 sm:flex-row"
             >
               <a
-                href="/playground"
+                href="http://localhost:8080"
                 className="group relative inline-flex items-center rounded-full border border-indigo-300/35 bg-slate-900/50 px-6 py-3 text-sm font-semibold tracking-wide text-slate-100 shadow-[0_0_18px_rgba(99,102,241,0.2)] transition hover:border-indigo-200/55 hover:bg-slate-800/65 hover:shadow-[0_0_30px_rgba(99,102,241,0.38)]"
               >
                 <span className="pointer-events-none absolute inset-0 rounded-full bg-indigo-400/15 blur-md animate-[pulse_4s_ease-in-out_infinite] group-hover:animate-[pulse_1.2s_ease-in-out_infinite]" />

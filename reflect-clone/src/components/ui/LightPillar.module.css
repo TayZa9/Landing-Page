@@ -1,0 +1,25 @@
+.lightPillarContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.lightPillarContainer :global(canvas) {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.lightPillarFallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  color: rgba(148, 163, 184, 0.8);
+  background: radial-gradient(circle at 50% 50%, rgba(82, 39, 255, 0.2), transparent 65%);
+}
