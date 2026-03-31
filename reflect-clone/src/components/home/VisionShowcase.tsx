@@ -1,10 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-
-const SCENE_DURATION_MS = 8000;
 
 const SCENES = [
   {
@@ -74,17 +72,17 @@ const SCENES = [
 export function VisionShowcase() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setCurrentIndex((prev) => (prev + 1) % SCENES.length);
-    }, SCENE_DURATION_MS);
-    return () => window.clearTimeout(timer);
-  }, [currentIndex]);
+  const goToScene = (index: number) => {
+    setCurrentIndex(index);
+  };
 
-  const progress = useMemo(
-    () => ((currentIndex + 1) / SCENES.length) * 100,
-    [currentIndex],
-  );
+  const goToPrevious = () => {
+    setCurrentIndex((prev) => (prev - 1 + SCENES.length) % SCENES.length);
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % SCENES.length);
+  };
 
   const currentScene = SCENES[currentIndex];
   const titleLines = currentScene.title.split("\n");
@@ -202,12 +200,51 @@ export function VisionShowcase() {
           </AnimatePresence>
 
           <div className="absolute bottom-0 left-0 h-1.5 w-full bg-white/10">
-            <motion.div
-              className="h-full bg-[#36d1ff] shadow-[0_0_15px_#36d1ff]"
-              initial={{ width: "0%" }}
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.45, ease: "easeOut" }}
+            <div
+              className="h-full bg-[#36d1ff] shadow-[0_0_15px_#36d1ff] transition-all duration-300"
+              style={{ width: `${((currentIndex + 1) / SCENES.length) * 100}%` }}
             />
+          </div>
+
+          <div className="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-3 md:bottom-5 md:left-5 md:right-5">
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={goToPrevious}
+                className="rounded-full border border-white/25 bg-black/60 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-white transition hover:border-[#36d1ff] hover:text-[#36d1ff]"
+                aria-label="Go to previous scene"
+              >
+                Prev
+              </button>
+              <button
+                type="button"
+                onClick={goToNext}
+                className="rounded-full border border-white/25 bg-black/60 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-white transition hover:border-[#36d1ff] hover:text-[#36d1ff]"
+                aria-label="Go to next scene"
+              >
+                Next
+              </button>
+            </div>
+
+            <div className="flex items-center gap-2">
+              {SCENES.map((scene, index) => {
+                const isActive = index === currentIndex;
+                return (
+                  <button
+                    key={scene.id}
+                    type="button"
+                    onClick={() => goToScene(index)}
+                    className={`h-2.5 rounded-full transition-all ${
+                      isActive
+                        ? "w-8 bg-[#36d1ff] shadow-[0_0_12px_rgba(54,209,255,0.9)]"
+                        : "w-2.5 bg-white/40 hover:bg-white/70"
+                    }`}
+                    aria-label={`Go to scene ${index + 1}`}
+                    aria-current={isActive ? "true" : undefined}
+                  />
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>

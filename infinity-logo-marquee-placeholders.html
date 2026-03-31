@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Infinity Logo Marquee (Image Placeholders)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      :root {
+        --marquee-speed: 30s;
+        --logo-gap: clamp(0.75rem, 2vw, 1.25rem);
+      }
+
+      .marquee-wrap {
+        position: relative;
+        overflow: hidden;
+        border-radius: 1.25rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background:
+          radial-gradient(120% 120% at 10% 10%, rgba(56, 189, 248, 0.12) 0%, transparent 36%),
+          radial-gradient(80% 100% at 90% 100%, rgba(59, 130, 246, 0.08) 0%, transparent 45%),
+          linear-gradient(180deg, #121722 0%, #0b0f17 100%);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 22px 60px rgba(0, 0, 0, 0.45);
+      }
+
+      .marquee-wrap::before,
+      .marquee-wrap::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: min(10vw, 88px);
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      .marquee-wrap::before {
+        left: 0;
+        background: linear-gradient(to right, rgba(11, 15, 23, 0.96), rgba(11, 15, 23, 0));
+      }
+
+      .marquee-wrap::after {
+        right: 0;
+        background: linear-gradient(to left, rgba(11, 15, 23, 0.96), rgba(11, 15, 23, 0));
+      }
+
+      .marquee-track {
+        display: flex;
+        width: max-content;
+        animation: logo-scroll var(--marquee-speed) linear infinite;
+      }
+
+      .marquee-group {
+        display: flex;
+        align-items: center;
+        gap: var(--logo-gap);
+        margin: 0;
+        padding: 1rem var(--logo-gap) 1rem 0;
+        list-style: none;
+        flex-shrink: 0;
+      }
+
+      .logo-chip {
+        flex-shrink: 0;
+      }
+
+      .logo-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        min-height: 2.75rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.8rem;
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        background: rgba(255, 255, 255, 0.04);
+        transition: border-color 220ms ease, background 220ms ease, transform 220ms ease;
+      }
+
+      .logo-link:hover {
+        border-color: rgba(255, 255, 255, 0.45);
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateY(-1px);
+      }
+
+      .logo-link img {
+        height: clamp(1.5rem, 4vw, 1.85rem);
+        width: clamp(1.5rem, 4vw, 1.85rem);
+        object-fit: contain;
+        filter: grayscale(1) saturate(0.1);
+        opacity: 0.88;
+        transition: filter 240ms ease, opacity 240ms ease;
+      }
+
+      .logo-link:hover img {
+        filter: grayscale(0) saturate(1);
+        opacity: 1;
+      }
+
+      .logo-name {
+        color: rgb(148 163 184);
+        font: 600 0.82rem/1.1 ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        white-space: nowrap;
+      }
+
+      @keyframes logo-scroll {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      @media (max-width: 640px) {
+        :root {
+          --marquee-speed: 22s;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .marquee-track {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-[#090d14] text-slate-100 antialiased">
+    <main class="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+      <section class="space-y-4">
+        <p class="text-xs uppercase tracking-[0.18em] text-slate-400">Tech Stack Marquee</p>
+        <h1 class="text-2xl font-semibold text-slate-100 sm:text-3xl">Smooth Infinity Loop Logos (IMG Placeholders)</h1>
+
+        <div class="marquee-wrap mt-4" aria-label="Scrolling technology logos">
+          <div class="marquee-track">
+            <ul class="marquee-group">
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/python.png" alt="Python logo" loading="lazy" /><span class="logo-name">Python</span></div></li>
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/javascript.png" alt="JavaScript logo" loading="lazy" /><span class="logo-name">JavaScript</span></div></li>
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/html5.jpeg" alt="HTML5 logo" loading="lazy" /><span class="logo-name">HTML5</span></div></li>
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/css3.png" alt="CSS3 logo" loading="lazy" /><span class="logo-name">CSS3</span></div></li>
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/pytorch.jpeg" alt="PyTorch logo" loading="lazy" /><span class="logo-name">PyTorch</span></div></li>
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/opencv.png" alt="OpenCV logo" loading="lazy" /><span class="logo-name">OpenCV</span></div></li>
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/fastapi.png" alt="FastAPI logo" loading="lazy" /><span class="logo-name">FastAPI</span></div></li>
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/firebase.png" alt="Firebase logo" loading="lazy" /><span class="logo-name">Firebase</span></div></li>
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/google-cloud.png" alt="Google Cloud logo" loading="lazy" /><span class="logo-name">Google Cloud</span></div></li>
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/google-gemini.jpeg" alt="Google Gemini logo" loading="lazy" /><span class="logo-name">Google Gemini</span></div></li>
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/tailwind.png" alt="Tailwind CSS logo" loading="lazy" /><span class="logo-name">Tailwind CSS</span></div></li>
+            </ul>
+
+            <ul class="marquee-group" aria-hidden="true">
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/python.png" alt="Python logo" loading="lazy" /><span class="logo-name">Python</span></div></li>
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/javascript.png" alt="JavaScript logo" loading="lazy" /><span class="logo-name">JavaScript</span></div></li>
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/html5.jpeg" alt="HTML5 logo" loading="lazy" /><span class="logo-name">HTML5</span></div></li>
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/css3.png" alt="CSS3 logo" loading="lazy" /><span class="logo-name">CSS3</span></div></li>
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/pytorch.jpeg" alt="PyTorch logo" loading="lazy" /><span class="logo-name">PyTorch</span></div></li>
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/opencv.png" alt="OpenCV logo" loading="lazy" /><span class="logo-name">OpenCV</span></div></li>
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/fastapi.png" alt="FastAPI logo" loading="lazy" /><span class="logo-name">FastAPI</span></div></li>
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/firebase.png" alt="Firebase logo" loading="lazy" /><span class="logo-name">Firebase</span></div></li>
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/google-cloud.png" alt="Google Cloud logo" loading="lazy" /><span class="logo-name">Google Cloud</span></div></li>
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/google-gemini.jpeg" alt="Google Gemini logo" loading="lazy" /><span class="logo-name">Google Gemini</span></div></li>
+              <li class="logo-chip"><div class="logo-link"><img src="./logos/tailwind.png" alt="Tailwind CSS logo" loading="lazy" /><span class="logo-name">Tailwind CSS</span></div></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

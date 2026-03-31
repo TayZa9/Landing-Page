@@ -6,21 +6,32 @@ import { motion, useMotionTemplate, useScroll, useTransform } from "framer-motio
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Developer", href: "/#developer" },
-  { label: "Technology", href: "#technology" },
-  { label: "About", href: "#about" },
-] as const;
+  { label: "Developer", href: "/developer" },
+  { label: "About", href: "/#about" },
+];
 
-function isActiveLink(pathname: string, currentHash: string, href: string) {
-  if (!href.includes("#")) {
-    return pathname === href;
-  }
-
-  const [targetPath, targetHash] = href.split("#");
-  const normalizedPath = targetPath || "/";
-
-  return pathname === normalizedPath && currentHash === `#${targetHash}`;
-}
+const TECHNOLOGY_MENU_ITEMS = [
+  {
+    title: "Computer Vision",
+    subtitle: "Real-time spatial awareness and identity",
+    href: "/technology#edge-computer-vision",
+  },
+  {
+    title: "Natural Language",
+    subtitle: "Spoken, actionable intelligence",
+    href: "/technology#multimodal-rag",
+  },
+  {
+    title: "Intelligent Memory",
+    subtitle: "Temporal RAG and persistence",
+    href: "/technology#multimodal-rag",
+  },
+  {
+    title: "Generative AI",
+    subtitle: "The reasoning agent core",
+    href: "/technology#agentic-reasoning",
+  },
+];
 
 export function AuraNavbar() {
   const pathname = usePathname();
@@ -82,9 +93,51 @@ export function AuraNavbar() {
 
       {/* Links */}
       <ul className="relative z-10 hidden md:flex gap-10 items-center">
-        {NAV_LINKS.map((link) => (
+        <li>
+          <NavLink href="/" active={pathname === "/" && currentHash === ""}>
+            Home
+          </NavLink>
+        </li>
+
+        <li className="group relative">
+          <a
+            href="/technology"
+            className={`relative flex items-center gap-1 text-sm font-medium tracking-wide transition-colors duration-200 group-hover:text-white ${pathname === "/technology" ? "text-[#36d1ff]" : "text-white/60"
+              }`}
+          >
+            <span>Technologies</span>
+            <span className="material-symbols-outlined text-[16px] leading-none">expand_more</span>
+            <span className={`absolute -bottom-1 left-0 h-px bg-[#36d1ff] transition-all duration-300 ease-out ${pathname === "/technology" ? "w-full" : "w-0 group-hover:w-full"
+              }`} />
+          </a>
+
+          <div className="shell-profile-menu pointer-events-none absolute left-1/2 top-full z-30 mt-3 w-[350px] -translate-x-1/2 translate-y-1 rounded-2xl p-2 opacity-0 transition-all duration-300 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100">
+            {TECHNOLOGY_MENU_ITEMS.map((item) => (
+              <a
+                key={item.title}
+                href={item.href}
+                className="tech-dropdown-item block rounded-xl px-3 py-2.5"
+              >
+                <span className="block text-sm font-semibold tracking-wide text-slate-100">{item.title}</span>
+                <span className="mt-0.5 block text-xs text-slate-400">{item.subtitle}</span>
+              </a>
+            ))}
+          </div>
+        </li>
+
+        {NAV_LINKS.filter((link) => link.label !== "Home").map((link) => (
           <li key={link.label}>
-            <NavLink href={link.href} active={isActiveLink(pathname, currentHash, link.href)}>
+            <NavLink
+              href={link.href}
+              active={(() => {
+                if (link.href.includes("#")) {
+                  const [targetPath, targetHash] = link.href.split("#");
+                  const normalizedPath = targetPath || "/";
+                  return pathname === normalizedPath && currentHash === `#${targetHash}`;
+                }
+                return pathname === link.href;
+              })()}
+            >
               {link.label}
             </NavLink>
           </li>
@@ -93,12 +146,12 @@ export function AuraNavbar() {
 
       {/* CTA */}
       <motion.a
-        href="#features"
+        href="/technology#metrics"
         className="relative z-10 hidden md:flex items-center gap-2 px-5 py-2 rounded-full border border-[#36d1ff]/40 text-[#36d1ff] text-sm font-medium tracking-wide hover:bg-[#36d1ff]/10 transition-colors duration-300"
         whileHover={{ scale: 1.05, boxShadow: "0 0 24px 3px rgba(54,209,255,0.38)" }}
         whileTap={{ scale: 0.97 }}
       >
-        Get Early Access
+        Explore Stack
       </motion.a>
     </motion.nav>
   );

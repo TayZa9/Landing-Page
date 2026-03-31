@@ -10,15 +10,10 @@ if (typeof window !== "undefined") {
 }
 
 const TOP_ROW_IMAGES = [
-  { src: "/showcase/grid-1.jpg", alt: "Abstract architecture with light trails" },
-  { src: "/showcase/grid-2.jpg", alt: "Sleek digital interface detail" },
-  { src: "/showcase/grid-3.jpg", alt: "Modern installation with ambient glow" },
-  { src: "/showcase/grid-4.jpg", alt: "Spatial composition with neon accents" },
-];
-
-const BOTTOM_ROW_IMAGES = [
-  { src: "/showcase/grid-5.jpg", alt: "Architectural light corridor" },
-  { src: "/showcase/grid-6.jpg", alt: "Futuristic gallery installation" },
+  { src: "/image src/Dashboard1.png", alt: "AuraVision dashboard screen 1" },
+  { src: "/image src/Dashboard2.png", alt: "AuraVision dashboard screen 2" },
+  { src: "/image src/Dashboard3.png", alt: "AuraVision dashboard screen 3" },
+  { src: "/image src/Dashboard4.png", alt: "AuraVision dashboard screen 4" },
 ];
 
 type ScatterState = {
@@ -36,8 +31,6 @@ const SCATTER_STATE = [
   { x: 220, y: -150, z: -260, rotate: 2.8, scale: 0.84, blur: 15, opacity: 0.4 },
   { x: -148, y: 86, z: -138, rotate: -1.7, scale: 0.93, blur: 9, opacity: 0.62 },
   { x: 148, y: 86, z: -138, rotate: 1.7, scale: 0.93, blur: 9, opacity: 0.62 },
-  { x: -74, y: -18, z: 56, rotate: -1.1, scale: 1.04, blur: 3.5, opacity: 0.88 },
-  { x: 74, y: -18, z: 56, rotate: 1.1, scale: 1.04, blur: 3.5, opacity: 0.88 },
 ] as const satisfies readonly ScatterState[];
 
 const ASSEMBLY_TIMING = [
@@ -45,15 +38,12 @@ const ASSEMBLY_TIMING = [
   { start: 0.2, duration: 0.88 },
   { start: 0.25, duration: 0.82 },
   { start: 0.31, duration: 0.89 },
-  { start: 0.35, duration: 0.8 },
-  { start: 0.41, duration: 0.86 },
 ];
 
 export function AuraShowcase() {
   const sectionRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const topCardsRef = useRef<Array<HTMLDivElement | null>>([]);
-  const bottomCardsRef = useRef<Array<HTMLDivElement | null>>([]);
   const isGridLockedRef = useRef(false);
 
   useEffect(() => {
@@ -61,8 +51,7 @@ export function AuraShowcase() {
 
     const ctx = gsap.context(() => {
       const topCards = topCardsRef.current.filter((card): card is HTMLDivElement => Boolean(card));
-      const bottomCards = bottomCardsRef.current.filter((card): card is HTMLDivElement => Boolean(card));
-      const allCards = [...topCards, ...bottomCards];
+      const allCards = [...topCards];
       const totalAssemblyProgress = Math.max(...ASSEMBLY_TIMING.map((timing) => timing.start + timing.duration));
       const fadeInDuration = totalAssemblyProgress * 0.1;
 
@@ -169,15 +158,23 @@ export function AuraShowcase() {
 
   return (
     <section id="technology" ref={sectionRef} className="relative z-0 mt-0 pt-0 bg-[#050505]">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pt-16 text-center md:px-10 md:pt-20">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-cyan-200/90">Live System Interface</p>
+        <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white md:text-5xl">AuraVision Analytics Dashboard</h2>
+        <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-slate-300 md:text-lg">
+          Real-time operational views from the core platform, including perception trends, guidance metrics, and spatial activity mapping.
+        </p>
+      </div>
+
       <div
         ref={pinRef}
-        className="relative mt-0 pt-0 flex h-screen items-center justify-center overflow-hidden px-4 md:px-10 [perspective:1800px] [mask-image:linear-gradient(to_bottom,transparent_0%,black_28%,black_100%)]"
+        className="relative mt-0 flex h-screen items-center justify-center overflow-hidden px-4 pt-10 md:px-10 md:pt-12 [perspective:1800px] [mask-image:linear-gradient(to_bottom,transparent_0%,black_28%,black_100%)]"
         style={{ WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 28%, black 100%)" }}
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_45%_at_50%_12%,rgba(54,209,255,0.1),transparent_64%),radial-gradient(ellipse_90%_66%_at_50%_100%,rgba(54,209,255,0.1),transparent_65%)]" />
 
-        <div className="relative w-full max-w-[1240px]">
-          <div className="grid grid-cols-12 gap-[20px]">
+        <div className="relative w-full max-w-[1480px]">
+          <div className="grid grid-cols-12 gap-6">
             {TOP_ROW_IMAGES.map((item, index) => (
               <div
                 key={item.src}
@@ -186,25 +183,16 @@ export function AuraShowcase() {
                 }}
                 onMouseMove={handleCardMove}
                 onMouseLeave={handleCardLeave}
-                className="relative col-span-6 md:col-span-3 aspect-[4/5] overflow-hidden rounded-2xl border border-white/10 [transform-style:preserve-3d]"
+                className="relative col-span-6 aspect-[16/9] overflow-hidden rounded-2xl border border-white/10 bg-black/45 [transform-style:preserve-3d]"
                 style={{ filter: "brightness(0.7)" }}
               >
-                <Image src={item.src} alt={item.alt} fill sizes="(min-width: 768px) 25vw, 50vw" className="object-cover" />
-              </div>
-            ))}
-
-            {BOTTOM_ROW_IMAGES.map((item, index) => (
-              <div
-                key={item.src}
-                ref={(el) => {
-                  bottomCardsRef.current[index] = el;
-                }}
-                onMouseMove={handleCardMove}
-                onMouseLeave={handleCardLeave}
-                className="relative col-span-12 md:col-span-6 aspect-[16/9] overflow-hidden rounded-2xl border border-white/10 [transform-style:preserve-3d]"
-                style={{ filter: "brightness(0.7)" }}
-              >
-                <Image src={item.src} alt={item.alt} fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" />
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  fill
+                  sizes="(min-width: 1280px) 44vw, (min-width: 768px) 47vw, 47vw"
+                  className="object-contain p-2 md:p-3"
+                />
               </div>
             ))}
           </div>
